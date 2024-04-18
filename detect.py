@@ -67,6 +67,13 @@ try:
                 person = find_name_by_barcode(barcode_data, data)
                 if person:
                     print(f"{Colors.YELLOW}{person}{Colors.RESET}")
+                    data = {
+                            "name": person
+                                }
+                    with open("qr_test.json", 'w') as f:
+                        json.dump(data, f, indent=4)
+                    print()
+                    
             # print(f"{Colors.YELLOW}Detected Marker ID:: {markerID}, At pose of x::{pose[0]}, y::{pose[1]}, z::{pose[2]}, orientation::{oreintation}, distance::{distance}{Colors.RESET}")   
         # Display the resulting frame
         cv2.imshow('RealSense', cv2.cvtColor(color_image, cv2.COLOR_RGB2BGR))
