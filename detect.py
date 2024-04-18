@@ -3,11 +3,19 @@ import numpy as np
 import cv2
 from pyzbar.pyzbar import decode
 import json
-
+from owl_client import OwlClient, Joint
+import time
+client = OwlClient("10.42.0.53")
 class Colors:
     RED = '\033[91m'
     YELLOW = '\033[93m'
-    RESET = '\033[0m'  
+    RESET = '\033[0m' 
+
+def run_program():
+    # Wait for the robot to be available
+    while not client.is_running():
+        time.sleep(0.5)
+        client.send_script("save.xml")
 
 filepath = 'database.json'  # Replace 'your_file_path.json' with the path to your JSON file
 print(f"{Colors.YELLOW}List of the people attending::{Colors.RESET}")
@@ -34,7 +42,7 @@ def find_name_by_barcode(barcode_number, data):
 # Start streaming
 pipeline.start(config)
 detected_barcodes = set() 
-
+run_program()
 try:
     while True:
         # Wait for a coherent pair of frames: depth and color
